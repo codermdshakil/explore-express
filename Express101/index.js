@@ -1,11 +1,29 @@
 const express = require("express");
-const fs = require('fs')
+const fs = require('fs');
+const path = require("path");
 
 const app = express();
 
 app.use(express.json());
 
 // Your existing routes
+
+
+// res.status
+// res.send
+
+app.get('/', (req,res) => {
+  res.status(200).send("Hello world")
+})
+
+// res.sendFile using these we can sent a file from server to client
+app.get('/sendfile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'pages', 'index.html'))
+})
+
+
+
+
 // app.get('/', (req, res) => {
 
 //   fs.readFile('./pages/index.html', (err, data) =>{
