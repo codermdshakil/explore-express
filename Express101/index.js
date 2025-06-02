@@ -6,25 +6,40 @@ const app = express();
 app.use(express.json());
 
 // Your existing routes
-app.get('/', (req, res) => {
-  
-  fs.readFile('./pages/index.html', (err, data) =>{
+// app.get('/', (req, res) => {
 
-    if(err){
-      console.log('Error');
-      res.send('<h1>Something went wrong</h1>')
-    }
-    else{
-      res.write(data)
-      res.end()
-    }
-  })
-  // res.send('Welcome to the homepage!');
-});
+//   fs.readFile('./pages/index.html', (err, data) =>{
 
-app.get('/about', (req, res) => {
-  res.send('This is the about page.');
-});
+//     if(err){
+//       console.log('Error');
+//       res.send('<h1>Something went wrong</h1>')
+//     }
+//     else{
+//       res.write(data)
+//       res.end()
+//     }
+//   })
+//   // res.send('Welcome to the homepage!');
+// });
+
+
+// res.download example 
+// app.get('/about', (req, res) => {
+//   res.download('./img/mql5.png', (err) => {
+//     if (err) {
+//       res.status(500).send('Error downloading file.');
+//     }
+//   });
+// });
+
+
+// res.redirect example -
+// app.get('/about', (req, res) => {
+//   res.redirect('/help')
+// });
+
+
+
 
 
 app.get('/help', (req, res) => {
