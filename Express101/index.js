@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require('fs')
 
 const app = express();
 
@@ -6,7 +7,19 @@ app.use(express.json());
 
 // Your existing routes
 app.get('/', (req, res) => {
-  res.send('Welcome to the homepage!');
+  
+  fs.readFile('./pages/index.html', (err, data) =>{
+
+    if(err){
+      console.log('Error');
+      res.send('<h1>Something went wrong</h1>')
+    }
+    else{
+      res.write(data)
+      res.end()
+    }
+  })
+  // res.send('Welcome to the homepage!');
 });
 
 app.get('/about', (req, res) => {
