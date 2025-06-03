@@ -3,30 +3,20 @@ const cors = require('cors')
 const morgan = require('morgan')
 const router = require('express').Router();
 
+const { homeController, aboutController, aboutsController, helpController, middlewareController} = require('./controller')
 
-router.get('/', (req, res) => {
-  res.send('Hello world')
-})
+router.get('/',homeController );
 
 // use a specific middleware
-router.get('/about', morgan('dev'),(req, res) => {
-  res.send('About')
-})
+router.get('/about', aboutController);
 
 // when we need multiple middleware we can simply use array
-router.get('/abouts',[morgan('dev'), cors()] , (req, res, next) => {
-  res.send('This is abouts')
-})
+router.get('/abouts', aboutsController)
 
-router.get('/help', (req, res) => {
-  res.send('Help')
-});
+router.get('/help', helpController);
 
 
 // use localmiddleware in specific route. Just give name of local middleware don't call it
-router.get('/middleware',(req, res, next) =>{
-  console.log('I am local middleware');
-  res.send("Local middlewares")
-})
+router.get('/middleware',middlewareController)
 
 module.exports = router;
