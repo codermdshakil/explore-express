@@ -6,7 +6,8 @@ const app = express();
 
 
 
-// these middleware works in globally for every route 
+// these middleware works in globally for every route
+app.use(express.static('./public'))
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cors());
