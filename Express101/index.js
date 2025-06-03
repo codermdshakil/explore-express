@@ -31,6 +31,13 @@ app.get('/help', (req, res) => {
 });
 
 
+// use localmiddleware in specific route. Just give name of local middleware don't call it
+app.get('/middleware',localMiddleware ,(req, res, next) =>{
+  console.log('I am local middleware');
+  res.send("Local middlewares")
+})
+
+
 // syntax of middleware
 // - if everything seems ok then most of the time controller will call response methods
 // - if everything seems ok then most of the time middleware call next that means next middleware
@@ -56,9 +63,13 @@ function gloablMiddleware(req, res,next){
   if(req.query.bad){
     return res.status(400).send('Bad request')
   }
-  else{
-    return res.send("Good request")
-  }
+
+  next()
+}
+
+// local middleware
+function localMiddleware(req, res, next){
+  
 
   next()
 }
