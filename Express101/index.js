@@ -9,6 +9,9 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cors())
 
+// when we use gloableMidleware we don't need to call the middleware function [if we maintain singature]
+app.use(gloablMiddleware)
+
 app.get('/', (req, res) => {
   res.send('Hello world')
 })
@@ -43,6 +46,21 @@ function handler(req, res, next){
 function middlewareSignature(req, res, next){
 
   next(); // if we don't call next then our system will hang
+}
+
+// create custom middleware
+function gloablMiddleware(req, res,next){
+  console.log(`${req.method} - ${req.url}`);
+  console.log('I am a global middlewares');
+
+  if(req.query.bad){
+    return res.status(400).send('Bad request')
+  }
+  else{
+    return res.send("Good request")
+  }
+
+  next()
 }
 
 
