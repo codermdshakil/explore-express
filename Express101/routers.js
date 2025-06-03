@@ -1,6 +1,4 @@
 
-const cors = require('cors')
-const morgan = require('morgan')
 const router = require('express').Router();
 
 const { homeController, aboutController, aboutsController, helpController, middlewareController} = require('./controller')
@@ -14,7 +12,6 @@ router.get('/about', aboutController);
 router.get('/abouts', aboutsController)
 
 router.get('/help', helpController);
-
 
 // use localmiddleware in specific route. Just give name of local middleware don't call it
 router.get('/middleware',middlewareController)

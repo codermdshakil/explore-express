@@ -53,14 +53,28 @@ function middlewareSignature(req, res, next){
 // }
 
 
+// 404 handler (should always be last)
+app.use((req, res, next) => {
+  const error = new Error('404 not found!');
+  error.status = 404;
+  next(error)
+});
+
+
+// global error handle
+app.use((error, req, res, next) => {
+
+  if(error.status){
+    return res.status(error.status).send(error.message)
+  }
+
+  res.status(500).send("Something went wrong!")
+})
+
+
 app.listen(5000, (req, res) =>{
   console.log('Application is running on PORT 5000');
 })
 
 
 
-// ### Use Routers when:
-
-// - Your app is growing and has **multiple routes**.
-// - You want to **organize your code** by feature or resource.
-// - You want **modular and reusable** route files.
