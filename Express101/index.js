@@ -3,7 +3,6 @@ const cors = require('cors')
 const morgan = require('morgan')
 
 const app = express();
-const router = express.Router();
 
 
 
@@ -11,36 +10,13 @@ const router = express.Router();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cors());
-app.use(router)
+app.use(require('./routers'))
 
 
 // when we use gloableMidleware we don't need to call the middleware function [if we maintain singature]
-app.use(gloablMiddleware)
+// app.use(gloablMiddleware)
  
-router.get('/', (req, res) => {
-  res.send('Hello world')
-})
 
-// use a specific middleware
-router.get('/about', morgan('dev'),(req, res) => {
-  res.send('About')
-})
-
-// when we need multiple middleware we can simply use array
-router.get('/abouts',[morgan('dev'), cors()] , (req, res, next) => {
-  res.send('This is abouts')
-})
-
-router.get('/help', (req, res) => {
-  res.send('Help')
-});
-
-
-// use localmiddleware in specific route. Just give name of local middleware don't call it
-router.get('/middleware',localMiddleware ,(req, res, next) =>{
-  console.log('I am local middleware');
-  res.send("Local middlewares")
-})
 
 
 // syntax of middleware
@@ -60,21 +36,21 @@ function middlewareSignature(req, res, next){
 }
 
 // create custom middleware
-function gloablMiddleware(req, res,next){
-  console.log(`${req.method} - ${req.url}`);
-  console.log('I am a global middlewares');
+// function gloablMiddleware(req, res,next){
+//   console.log(`${req.method} - ${req.url}`);
+//   console.log('I am a global middlewares');
 
-  if(req.query.bad){
-    return res.status(400).send('Bad request')
-  }
+//   if(req.query.bad){
+//     return res.status(400).send('Bad request')
+//   }
 
-  next()
-}
+//   next()
+// }
 
 // local middleware
-function localMiddleware(req, res, next){
-  next()
-}
+// function localMiddleware(req, res, next){
+//   next()
+// }
 
 
 app.listen(5000, (req, res) =>{
