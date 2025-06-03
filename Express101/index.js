@@ -25,7 +25,25 @@ app.get('/abouts',[morgan('dev'), cors()] , (req, res, next) => {
 
 app.get('/help', (req, res) => {
   res.send('Help')
-})
+});
+
+
+// syntax of middleware
+// - if everything seems ok then most of the time controller will call response methods
+// - if everything seems ok then most of the time middleware call next that means next middleware
+
+function handler(req, res, next){
+
+  // read request object
+  // process request
+  // response back the result
+}
+
+
+function middlewareSignature(req, res, next){
+
+  next(); // if we don't call next then our system will hang
+}
 
 
 app.listen(5000, (req, res) =>{
