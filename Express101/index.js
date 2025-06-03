@@ -2,37 +2,42 @@ const express = require('express');
 const cors = require('cors')
 const morgan = require('morgan')
 
-const app = express()
+const app = express();
+const router = express.Router();
+
+
 
 // these middleware works in globally for every route 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(cors());
+app.use(router)
+
 
 // when we use gloableMidleware we don't need to call the middleware function [if we maintain singature]
 app.use(gloablMiddleware)
-
-app.get('/', (req, res) => {
+ 
+router.get('/', (req, res) => {
   res.send('Hello world')
 })
 
 // use a specific middleware
-app.get('/about', morgan('dev'),(req, res) => {
+router.get('/about', morgan('dev'),(req, res) => {
   res.send('About')
 })
 
 // when we need multiple middleware we can simply use array
-app.get('/abouts',[morgan('dev'), cors()] , (req, res, next) => {
+router.get('/abouts',[morgan('dev'), cors()] , (req, res, next) => {
   res.send('This is abouts')
 })
 
-app.get('/help', (req, res) => {
+router.get('/help', (req, res) => {
   res.send('Help')
 });
 
 
 // use localmiddleware in specific route. Just give name of local middleware don't call it
-app.get('/middleware',localMiddleware ,(req, res, next) =>{
+router.get('/middleware',localMiddleware ,(req, res, next) =>{
   console.log('I am local middleware');
   res.send("Local middlewares")
 })
@@ -51,7 +56,6 @@ function handler(req, res, next){
 
 
 function middlewareSignature(req, res, next){
-
   next(); // if we don't call next then our system will hang
 }
 
@@ -69,8 +73,6 @@ function gloablMiddleware(req, res,next){
 
 // local middleware
 function localMiddleware(req, res, next){
-  
-
   next()
 }
 
@@ -79,3 +81,10 @@ app.listen(5000, (req, res) =>{
   console.log('Application is running on PORT 5000');
 })
 
+
+
+// ### Use Routers when:
+
+// - Your app is growing and has **multiple routes**.
+// - You want to **organize your code** by feature or resource.
+// - You want **modular and reusable** route files.
